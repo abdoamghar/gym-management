@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  MANAGER
+  STAFF
+}
+
+enum MemberStatus {
+  ACTIVE
+  FROZEN
+  EXPIRED
+  CANCELLED
+}
+
+enum TemplateKey {
+  welcome
+  payment_reminder
+  closure
+}
+
+model Gym {
+  id              String   @id @default(cuid())
+  name            String
+  phone           String?
+  address         String?
+  monthlyPrice    Float    @default(200)
+  membershipDays  Int      @default(30)
+  graceDays       Int      @default(3)
+  reminderDays    Int      @default(3)
+  logoUrl         String?
+  defaultLocale   String   @default("fr")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  users             User[]
+  members           Member[]
+  membershipPeriods MembershipPeriod[]
+  holidays          Holiday[]
+  messageTemplates  MessageTemplate[]
+  checkIns          CheckIn[]
+  notificationLogs  NotificationLog[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         UserRole @default(MANAGER)
+  gymId        String
+  gym          Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  checkIns CheckIn[]
+}
+
+model Member {
+  id                String       @id @default(cuid())
+  gymId             String
+  gym               Gym          @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  firstName         String
+  lastName          String
+  phone             String
+  cin               String?
+  photoUrl          String?
+  notes             String?
+  preferredLocale   String       @default("fr")
+  status            MemberStatus @default(ACTIVE)
+  freezeStart       DateTime?
+  freezeEnd         DateTime?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  periods          MembershipPeriod[]
+  checkIns         CheckIn[]
+  notificationLogs NotificationLog[]
+
+  @@index([gymId])
+  @@index([phone])
+  @@index([cin])
+  @@index([status])
+}
+
+model MembershipPeriod {
+  id         String   @id @default(cuid())
+  gymId      String
+  gym        Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  memberId   String
+  member     Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  startDate  DateTime
+  endDate    DateTime
+  amountPaid Float
+  paidAt     DateTime @default(now())
+  note       String?
+  createdAt  DateTime @default(now())
+
+  @@index([gymId])
+  @@index([memberId])
+  @@index([endDate])
+}
+
+model Holiday {
+  id            String    @id @default(cuid())
+  gymId         String
+  gym           Gym       @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  title         String
+  startDate     DateTime
+  endDate       DateTime
+  messageSentAt DateTime?
+  createdAt     DateTime  @default(now())
+
+  @@index([gymId])
+}
+
+model MessageTemplate {
+  id        String      @id @default(cuid())
+  gymId     String
+  gym       Gym         @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  key       TemplateKey
+  bodyFr    String
+  bodyAr    String
+  updatedAt DateTime    @updatedAt
+
+  @@unique([gymId, key])
+}
+
+model CheckIn {
+  id          String   @id @default(cuid())
+  gymId       String
+  gym         Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  memberId    String
+  member      Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  checkedInAt DateTime @default(now())
+  createdById String?
+  createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([gymId])
+  @@index([memberId])
+  @@index([checkedInAt])
+}
+
+model NotificationLog {
+  id        String   @id @default(cuid())
+  gymId     String
+  gym       Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  channel   String   @default("whatsapp")
+  template  String
+  createdAt DateTime @default(now())
+
+  @@index([gymId, memberId, createdAt])
+}
