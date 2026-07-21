@@ -35,7 +35,7 @@ export function NewMemberForm({ monthlyPrice }: { monthlyPrice: number }) {
           <span aria-hidden className="text-4xl">✅</span>
           <p className="font-display text-2xl text-[var(--ok)]">{t("created")}</p>
           <p className="text-sm text-[var(--muted)]">
-            This member is now active. Print the receipt below.
+            {t("createdHint")}
           </p>
         </div>
         <div className="flex flex-wrap gap-2 justify-center">

@@ -73,6 +73,7 @@
     "remindWa": "Send payment reminder WhatsApp",
     "noMembers": "No members",
     "created": "Member created",
+    "createdHint": "This member is now active. Print the receipt below.",
     "updated": "Member updated",
     "frozenUntil": "Frozen until",
     "freezeStart": "Freeze start",
@@ -100,7 +101,11 @@
     "success": "Membership renewed",
     "amount": "Amount",
     "empty": "All memberships are up to date.",
-    "emptyHint": "No reminders to send."
+    "emptyHint": "No reminders to send.",
+    "colMember": "Member",
+    "colStatus": "Status",
+    "colEnd": "End",
+    "colActions": "Actions"
   },
   "holidays": {
     "title": "Holidays / closures",

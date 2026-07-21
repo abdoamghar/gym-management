@@ -73,6 +73,7 @@
     "remindWa": "Rappel paiement WhatsApp",
     "noMembers": "Aucun membre",
     "created": "Membre créé",
+    "createdHint": "Ce membre est maintenant actif. Imprimez le reçu ci-dessous.",
     "updated": "Membre mis à jour",
     "frozenUntil": "Gelé jusqu'au",
     "freezeStart": "Début du gel",
@@ -100,7 +101,11 @@
     "success": "Abonnement renouvelé",
     "amount": "Montant",
     "empty": "Tous les abonnements sont à jour.",
-    "emptyHint": "Aucun rappel à envoyer."
+    "emptyHint": "Aucun rappel à envoyer.",
+    "colMember": "Membre",
+    "colStatus": "Statut",
+    "colEnd": "Fin",
+    "colActions": "Actions"
   },
   "holidays": {
     "title": "Congés / fermetures",
