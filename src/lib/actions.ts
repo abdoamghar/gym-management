@@ -10,6 +10,7 @@ import {
   formatDateFr,
   formatMad,
   getLatestPeriod,
+  getPaymentStatus,
 } from "@/lib/membership";
 import { addDays, startOfDay } from "date-fns";
 import { writeFile, mkdir } from "fs/promises";
@@ -141,6 +142,7 @@ export async function createMember(formData: FormData) {
   return {
     ok: true,
     memberId: member.id,
+    startDate: formatDateFr(today),
     endDate: formatDateFr(endDate),
     amountPaid: formatMad(amountPaid),
     whatsappUrl: wa.url,
@@ -200,7 +202,7 @@ export async function renewMember(memberId: string, amountPaid?: number) {
     gym.membershipDays
   );
 
-  await prisma.membershipPeriod.create({
+  const period = await prisma.membershipPeriod.create({
     data: {
       gymId: gym.id,
       memberId,
@@ -219,9 +221,48 @@ export async function renewMember(memberId: string, amountPaid?: number) {
   revalidatePath("/");
   return {
     ok: true,
-    endDate: formatDateFr(endDate),
+    memberId,
+    periodId: period.id,
+    startDate: formatDateFr(period.startDate),
+    endDate: formatDateFr(period.endDate),
     amountPaid: formatMad(amountPaid ?? gym.monthlyPrice),
   };
+}
+
+export async function expireOverdueMembers() {
+  await requireSession();
+  const gym = await getCurrentGym();
+  const today = startOfDay(new Date());
+
+  const active = await prisma.member.findMany({
+    where: { gymId: gym.id, status: "ACTIVE", deletedAt: null },
+    include: { periods: true },
+  });
+
+  let expiredCount = 0;
+  for (const m of active) {
+    const { status } = getPaymentStatus(m, gym.graceDays, gym.reminderDays, today);
+    if (status === "overdue") {
+      await prisma.member.update({
+        where: { id: m.id },
+        data: { status: "EXPIRED" },
+      });
+      expiredCount++;
+    }
+  }
+
+  if (expiredCount > 0) revalidatePath("/");
+  return { ok: true, expiredCount };
+}
+
+export async function softDeleteMember(memberId: string) {
+  await requireSession();
+  await prisma.member.update({
+    where: { id: memberId },
+    data: { deletedAt: new Date() },
+  });
+  revalidatePath("/");
+  return { ok: true };
 }
 
 export async function freezeMember(memberId: string, formData: FormData) {

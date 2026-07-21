@@ -7,11 +7,11 @@
     "dashboard": "Dashboard",
     "members": "Members",
     "renewals": "Renewals",
-    "checkIn": "Check-in",
     "holidays": "Holidays",
     "templates": "Messages",
     "settings": "Settings",
     "export": "Export",
+    "broadcast": "Broadcast",
     "logout": "Logout"
   },
   "login": {
@@ -31,7 +31,10 @@
     "quickRenew": "Renew",
     "remind": "WhatsApp",
     "noItems": "Nothing for now",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "expireNow": "Expire overdue now",
+    "chartRevenue": "Revenue (last 6 months)",
+    "chartMemberships": "New memberships (last 6 months)"
   },
   "members": {
     "title": "Members",
@@ -73,7 +76,10 @@
     "updated": "Member updated",
     "frozenUntil": "Frozen until",
     "freezeStart": "Freeze start",
-    "freezeEnd": "Freeze end (optional)"
+    "freezeEnd": "Freeze end (optional)",
+    "delete": "Delete member",
+    "deleteConfirm": "This member will be hidden from active lists but data is preserved in reports. Continue?",
+    "deleted": "Member deleted"
   },
   "status": {
     "ACTIVE": "Active",
@@ -95,17 +101,6 @@
     "amount": "Amount",
     "empty": "All memberships are up to date.",
     "emptyHint": "No reminders to send."
-  },
-  "checkIn": {
-    "title": "Check-in",
-    "search": "Search a member…",
-    "confirm": "Save visit",
-    "success": "Check-in saved",
-    "warningOverdue": "Membership overdue — allow anyway?",
-    "warningGrace": "Grace period",
-    "valid": "Membership valid",
-    "today": "Today",
-    "noResults": "No results"
   },
   "holidays": {
     "title": "Holidays / closures",
@@ -144,6 +139,24 @@
     "reminderDays": "Reminder before due (days)",
     "defaultLocale": "Default language",
     "saved": "Settings saved"
+  },
+  "broadcast": {
+    "title": "Broadcast",
+    "audience": "Audience",
+    "audienceAll": "All active",
+    "audienceDue": "Due / overdue",
+    "audienceExpired": "Expired",
+    "template": "Template",
+    "templatePayment": "Payment reminder",
+    "templateClosure": "Closure",
+    "queueTitle": "WhatsApp sending queue",
+    "progress": "{current} / {total}",
+    "next": "Next member",
+    "done": "Done",
+    "openWa": "Open WhatsApp",
+    "empty": "No members in this audience",
+    "emptyHint": "Choose a different audience or template.",
+    "sentCount": "{count} messages sent"
   },
   "export": {
     "title": "Export",

@@ -1,24 +1,13 @@
-import { DM_Sans, Fraunces } from "next/font/google";
+// Root layout is a passthrough shell; <html>/<body> are rendered by the
+// [locale] layout so that lang/dir can be set from the active locale.
+// CSS import order matters: Tailwind first, then LTR design, then RTL overrides.
 import "./globals.css";
-
-const display = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-display",
-});
-
-const body = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-body",
-});
+import "./design.css";
+import "./rtl.css";
+import type { ReactNode, ReactElement } from "react";
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html className={`${display.variable} ${body.variable} h-full`} suppressHydrationWarning>
-      <body className="min-h-full antialiased">{children}</body>
-    </html>
-  );
+}: Readonly<{ children: ReactNode }>) {
+  return children as ReactElement;
 }

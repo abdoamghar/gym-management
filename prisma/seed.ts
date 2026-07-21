@@ -168,6 +168,110 @@ async function main() {
         paidAt: subDays(today, 45),
       }],
     },
+    // --- Broadcast test data ---
+    // ACTIVE members (for "all" audience)
+    {
+      firstName: "Hamza",
+      lastName: "Tazi",
+      phone: "0650000004",
+      cin: "AA111",
+      preferredLocale: "fr",
+      status: "ACTIVE" as const,
+      periods: [{
+        startDate: subDays(today, 1),
+        endDate: addDays(today, 29),
+        amountPaid: 250,
+        paidAt: subDays(today, 1),
+      }],
+    },
+    {
+      firstName: "Salma",
+      lastName: "Idrissi",
+      phone: "0660000005",
+      cin: "BB222",
+      preferredLocale: "ar",
+      status: "ACTIVE" as const,
+      periods: [{
+        startDate: subDays(today, 20),
+        endDate: addDays(today, 10),
+        amountPaid: 250,
+        paidAt: subDays(today, 20),
+      }],
+    },
+    // due_soon member (expires within reminderDays)
+    {
+      firstName: "Omar",
+      lastName: "Bennani",
+      phone: "0670000006",
+      cin: "CC333",
+      preferredLocale: "fr",
+      status: "ACTIVE" as const,
+      periods: [{
+        startDate: subDays(today, 28),
+        endDate: addDays(today, 2),
+        amountPaid: 250,
+        paidAt: subDays(today, 28),
+      }],
+    },
+    // grace member (just past endDate, within graceDays)
+    {
+      firstName: "Nadia",
+      lastName: "El Fassi",
+      phone: "0680000007",
+      cin: "DD444",
+      preferredLocale: "fr",
+      status: "ACTIVE" as const,
+      periods: [{
+        startDate: subDays(today, 33),
+        endDate: subDays(today, 1),
+        amountPaid: 250,
+        paidAt: subDays(today, 33),
+      }],
+    },
+    // overdue member (past grace period)
+    {
+      firstName: "Rachid",
+      lastName: "Ouazzani",
+      phone: "0690000008",
+      cin: "EE555",
+      preferredLocale: "ar",
+      status: "ACTIVE" as const,
+      periods: [{
+        startDate: subDays(today, 40),
+        endDate: subDays(today, 8),
+        amountPaid: 250,
+        paidAt: subDays(today, 40),
+      }],
+    },
+    // more EXPIRED members (for "expired" audience)
+    {
+      firstName: "Fatima",
+      lastName: "Chraibi",
+      phone: "0700000009",
+      cin: "FF666",
+      preferredLocale: "fr",
+      status: "EXPIRED" as const,
+      periods: [{
+        startDate: subDays(today, 60),
+        endDate: subDays(today, 30),
+        amountPaid: 250,
+        paidAt: subDays(today, 60),
+      }],
+    },
+    {
+      firstName: "Mehdi",
+      lastName: "Alaoui",
+      phone: "0710000010",
+      cin: "GG777",
+      preferredLocale: "fr",
+      status: "EXPIRED" as const,
+      periods: [{
+        startDate: subDays(today, 90),
+        endDate: subDays(today, 60),
+        amountPaid: 250,
+        paidAt: subDays(today, 90),
+      }],
+    },
   ];
 
   for (const memberData of demoMembers) {

@@ -6,13 +6,16 @@ import {
   unfreezeMember,
   cancelMembership,
   logNotification,
+  softDeleteMember,
 } from "@/lib/actions";
 import { RenewButton } from "@/components/RenewButton";
 import { WhatsAppButton, CopyMessageButton } from "@/components/WhatsAppButton";
+import { PrintBillButton } from "@/components/PrintBillButton";
+import { StatusBadge } from "@/components/StatusBadge";
 import { useTranslations } from "next-intl";
 import { useRouter, Link } from "@/i18n/routing";
 import { FormEvent, useState } from "react";
-import { Spinner, SubmitButton } from "@/components/ui";
+import { Spinner } from "@/components/ui";
 
 type Period = {
   id: string;
@@ -60,6 +63,11 @@ export function MemberDetailClient({
   const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [renewalToast, setRenewalToast] = useState<{
+    periodId: string;
+    endDate: string;
+    amountPaid: string;
+  } | null>(null);
 
   async function onSave(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -88,6 +96,16 @@ export function MemberDetailClient({
     setLoading(false);
   }
 
+  async function onDelete() {
+    if (!window.confirm(t("deleteConfirm"))) return;
+    setLoading(true);
+    await softDeleteMember(member.id);
+    setLoading(false);
+    router.push("/members");
+  }
+
+  const initials = `${member.firstName.slice(0, 1)}${member.lastName.slice(0, 1)}`.toUpperCase();
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-start gap-3 justify-between">
@@ -100,7 +118,14 @@ export function MemberDetailClient({
           </h1>
         </div>
         <div className="flex flex-wrap gap-2">
-          <RenewButton memberId={member.id} label={t("renew")} amount={monthlyPrice} />
+          <RenewButton
+            memberId={member.id}
+            label={t("renew")}
+            amount={monthlyPrice}
+            onRenewed={(periodId, endDate, amountPaid) =>
+              setRenewalToast({ periodId, endDate, amountPaid })
+            }
+          />
           <WhatsAppButton
             url={remindUrl}
             label={t("remindWa")}
@@ -110,40 +135,74 @@ export function MemberDetailClient({
         </div>
       </div>
 
+      {renewalToast && (
+        <div className="card p-4 border-2 border-[var(--accent)] bg-[var(--accent-soft)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <p className="font-semibold text-[var(--ink)]">
+              ✓ Renewed until {renewalToast.endDate} — {renewalToast.amountPaid}
+            </p>
+            <p className="text-xs text-[var(--muted)]">
+              Membership has been extended.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <PrintBillButton
+              memberId={member.id}
+              periodId={renewalToast.periodId}
+            />
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setRenewalToast(null)}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="grid md:grid-cols-[200px_1fr] gap-4">
-        <div className="card p-3 flex items-center justify-center min-h-[180px]">
+        <div className="card p-3 flex items-center justify-center min-h-[200px] overflow-hidden">
           {member.photoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
+            /* eslint-disable-next-line @next/next/no-img-element -- user-uploaded local photos with images.unoptimized */
             <img
               src={member.photoUrl}
-              alt=""
-              className="w-full h-48 object-cover rounded-lg"
+              alt={member.firstName + " " + member.lastName}
+              className="w-full h-52 object-cover rounded-lg"
             />
           ) : (
-            <div className="text-[var(--muted)] text-sm">{t("photo")}</div>
+            <div className="flex flex-col items-center gap-2 text-[var(--muted)] text-sm">
+              <span className="avatar" style={{ width: "5rem", height: "5rem", fontSize: "1.5rem" }} aria-hidden>
+                {initials}
+              </span>
+              <span>{t("photo")}</span>
+            </div>
           )}
         </div>
-        <div className="card p-5 space-y-3 min-w-0">
+        <div className="card p-5 space-y-4 min-w-0">
           <div className="flex flex-wrap gap-2 items-center">
-            <span className={`badge badge-${paymentStatus === "ok" ? "ok" : paymentStatus === "due_soon" ? "due" : paymentStatus === "grace" ? "grace" : paymentStatus === "overdue" ? "overdue" : "frozen"}`}>
-              {paymentLabel}
-            </span>
+            <StatusBadge status={paymentStatus} label={paymentLabel} />
             <span className="text-sm text-[var(--muted)]">
-              {t("endDate")}: {endDateLabel}
+              {t("endDate")}: <strong className="text-[var(--ink)]">{endDateLabel}</strong>
             </span>
           </div>
-          <p>
-            <strong>{t("phone")}:</strong> {member.phone}
-          </p>
-          <p>
-            <strong>{t("cin")}:</strong> {member.cin || "—"}
-          </p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <p className="text-sm">
+              <span className="block text-xs uppercase tracking-wide text-[var(--muted)] font-semibold mb-0.5">{t("phone")}</span>
+              <strong className="text-[var(--ink)]">{member.phone}</strong>
+            </p>
+            <p className="text-sm">
+              <span className="block text-xs uppercase tracking-wide text-[var(--muted)] font-semibold mb-0.5">{t("cin")}</span>
+              <strong className="text-[var(--ink)]">{member.cin || "—"}</strong>
+            </p>
+          </div>
           {member.notes && (
-            <p>
-              <strong>{t("notes")}:</strong> {member.notes}
+            <p className="text-sm">
+              <span className="block text-xs uppercase tracking-wide text-[var(--muted)] font-semibold mb-0.5">{t("notes")}</span>
+              <span className="text-[var(--ink)]">{member.notes}</span>
             </p>
           )}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 pt-1 border-t border-[var(--line)]">
             <CopyMessageButton text={remindText} />
             <button
               type="button"
@@ -162,6 +221,14 @@ export function MemberDetailClient({
                 {loading ? <Spinner /> : t("cancelMembership")}
               </button>
             )}
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={onDelete}
+              disabled={loading}
+            >
+              {loading ? <Spinner /> : t("delete")}
+            </button>
           </div>
         </div>
       </div>
@@ -252,19 +319,30 @@ export function MemberDetailClient({
         <table className="data">
           <thead>
             <tr>
-              <th>Début</th>
-              <th>Fin</th>
+              <th>{t("historyStart")}</th>
+              <th>{t("historyEnd")}</th>
               <th>{t("paidAmount")}</th>
+              <th>{t("historyPaidAt")}</th>
             </tr>
           </thead>
           <tbody>
-            {periods.map((p) => (
-              <tr key={p.id}>
-                <td>{p.startDate}</td>
-                <td>{p.endDate}</td>
-                <td>{p.amountPaid} MAD</td>
+            {periods.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="text-[var(--muted)] text-sm py-6">
+                  {t("noPeriods")}<br/>
+                  <span className="text-xs">{t("noPeriodsHint")}</span>
+                </td>
               </tr>
-            ))}
+            ) : (
+              periods.map((p) => (
+                <tr key={p.id} className="row-hover">
+                  <td>{p.startDate}</td>
+                  <td>{p.endDate}</td>
+                  <td><strong>{p.amountPaid} MAD</strong></td>
+                  <td>{p.paidAt}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

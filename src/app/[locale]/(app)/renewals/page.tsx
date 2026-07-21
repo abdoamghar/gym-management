@@ -21,7 +21,7 @@ export default async function RenewalsPage({
 
   const gym = await getCurrentGym();
   const members = await prisma.member.findMany({
-    where: { gymId: gym.id, status: { not: "CANCELLED" } },
+    where: { gymId: gym.id, status: { not: "CANCELLED" }, deletedAt: null },
     include: { periods: true },
     orderBy: { lastName: "asc" },
   });

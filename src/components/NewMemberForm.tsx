@@ -5,11 +5,13 @@ import { useTranslations } from "next-intl";
 import { useRouter, Link } from "@/i18n/routing";
 import { FormEvent, useState } from "react";
 import { SubmitButton } from "@/components/ui";
+import { PrintBillButton } from "@/components/PrintBillButton";
 
 export function NewMemberForm({ monthlyPrice }: { monthlyPrice: number }) {
   const t = useTranslations("members");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [createdMemberId, setCreatedMemberId] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -19,10 +21,45 @@ export function NewMemberForm({ monthlyPrice }: { monthlyPrice: number }) {
     setLoading(false);
     if (!result.ok || !result.memberId) return;
 
+    setCreatedMemberId(result.memberId);
+
     if (result.whatsappUrl) {
       window.open(result.whatsappUrl, "_blank");
     }
-    router.push(`/members/${result.memberId}`);
+  }
+
+  if (createdMemberId) {
+    return (
+      <div className="card p-6 md:p-8 space-y-5 max-w-xl text-center">
+        <div className="flex flex-col items-center gap-2">
+          <span aria-hidden className="text-4xl">✅</span>
+          <p className="font-display text-2xl text-[var(--ok)]">{t("created")}</p>
+          <p className="text-sm text-[var(--muted)]">
+            This member is now active. Print the receipt below.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2 justify-center">
+          <PrintBillButton memberId={createdMemberId} />
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => router.push(`/members/${createdMemberId}`)}
+          >
+            {t("detail")}
+          </button>
+          <Link href="/members" className="btn btn-secondary">
+            {t("title")}
+          </Link>
+        </div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => { setCreatedMemberId(null); }}
+        >
+          + {t("add")}
+        </button>
+      </div>
+    );
   }
 
   return (

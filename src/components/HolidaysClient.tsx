@@ -2,7 +2,6 @@
 
 import { createHoliday, deleteHoliday, markHolidayNotified, logNotification } from "@/lib/actions";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/routing";
 import { FormEvent, useState } from "react";
 import { WhatsAppButton, CopyMessageButton } from "@/components/WhatsAppButton";
 import { Spinner } from "@/components/ui";
@@ -31,7 +30,6 @@ export function HolidaysClient({
   buildQueue: Record<string, QueueItem[]>;
 }) {
   const t = useTranslations("holidays");
-  const router = useRouter();
   const [queue, setQueue] = useState<QueueItem[] | null>(null);
   const [index, setIndex] = useState(0);
   const [activeHolidayId, setActiveHolidayId] = useState<string | null>(null);

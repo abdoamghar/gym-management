@@ -9,8 +9,8 @@ const links = [
   { href: "/", key: "dashboard" as const },
   { href: "/members", key: "members" as const },
   { href: "/renewals", key: "renewals" as const },
-  { href: "/check-in", key: "checkIn" as const },
   { href: "/holidays", key: "holidays" as const },
+  { href: "/broadcast", key: "broadcast" as const },
   { href: "/templates", key: "templates" as const },
   { href: "/settings", key: "settings" as const },
   { href: "/export", key: "export" as const },
@@ -35,10 +35,10 @@ export function AppShell({
   const nextLocale = locales[(currentIndex + 1) % locales.length];
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="app-shell min-h-screen flex flex-col md:flex-row">
       <aside
-        className={`fixed inset-y-0 start-0 z-40 w-72 transform bg-[var(--bg-elevated)] border-e border-[var(--line)] p-5 transition md:static md:translate-x-0 ${
-          open ? "translate-x-0" : "-translate-x-full rtl:translate-x-full md:translate-x-0"
+        className={`fixed inset-y-0 z-40 w-72 bg-[var(--bg-elevated)] border-e border-[var(--line)] p-5 transition-transform duration-200 md:static ${
+          open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
         <div className="mb-8">
@@ -105,7 +105,7 @@ export function AppShell({
           </button>
           <span className="font-display text-lg">{gymName}</span>
         </header>
-        <main className="flex-1 p-4 md:p-8 max-w-6xl w-full mx-auto">{children}</main>
+        <main className="flex-1 p-4 md:p-8 w-full min-w-0">{children}</main>
       </div>
     </div>
   );
