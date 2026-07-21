@@ -26,8 +26,8 @@
     "dueSoon": "قرب الاستحقاق",
     "grace": "فترة السماح",
     "overdue": "متأخر",
-    "checkInsToday": "حضور اليوم",
     "activeMembers": "أعضاء نشطون",
+    "frozenMembers": "أعضاء مجمّدون",
     "quickRenew": "تجديد",
     "remind": "واتساب",
     "noItems": "لا يوجد شيء حالياً",
@@ -160,6 +160,18 @@
     "members": "تصدير الأعضاء",
     "payments": "تصدير المدفوعات",
     "hint": "ملف Excel (.xlsx)"
+  },
+  "receipt": {
+    "paid": "مدفوع",
+    "member": "العضو",
+    "phone": "الهاتف",
+    "cin": "رقم البطاقة",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "paidOn": "تاريخ الدفع",
+    "total": "الإجمالي",
+    "poweredBy": "مدير الصالة",
+    "renewPrint": "تجديد وطباعة فاتورة"
   },
   "common": {
     "loading": "جاري التحميل…",

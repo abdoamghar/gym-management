@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentGym } from "@/lib/gym";
 import { formatDateFr, formatMad } from "@/lib/membership";
@@ -15,10 +15,11 @@ export default async function ReceiptPage({
   const { locale, id } = await params;
   const { period: periodParam } = await searchParams;
   setRequestLocale(locale);
+  const t = await getTranslations("receipt");
 
   const gym = await getCurrentGym();
   const member = await prisma.member.findFirst({
-    where: { id, gymId: gym.id },
+    where: { id, gymId: gym.id, deletedAt: null },
     include: { periods: { orderBy: { endDate: "desc" } } },
   });
   if (!member) notFound();
@@ -34,7 +35,11 @@ export default async function ReceiptPage({
   return (
     <div className="receipt-wrapper">
       {/* Print button – hidden when printing */}
-      <ReceiptActions memberId={member.id} monthlyPrice={gym.monthlyPrice} />
+      <ReceiptActions
+        memberId={member.id}
+        renewLabel={t("renewPrint")}
+        monthlyPrice={gym.monthlyPrice}
+      />
 
       {/* Receipt content */}
       <div id="receipt" className="receipt">
@@ -52,7 +57,7 @@ export default async function ReceiptPage({
 
         {/* Receipt meta */}
         <div className="receipt-meta">
-          <span className="receipt-badge">PAID</span>
+          <span className="receipt-badge">{t("paid")}</span>
           <p className="receipt-ref">{receiptId}</p>
         </div>
 
@@ -62,18 +67,18 @@ export default async function ReceiptPage({
         <table className="receipt-table">
           <tbody>
             <tr>
-              <td className="receipt-label">Member</td>
+              <td className="receipt-label">{t("member")}</td>
               <td className="receipt-value">
                 {member.firstName} {member.lastName}
               </td>
             </tr>
             <tr>
-              <td className="receipt-label">Phone</td>
+              <td className="receipt-label">{t("phone")}</td>
               <td className="receipt-value">{member.phone}</td>
             </tr>
             {member.cin && (
               <tr>
-                <td className="receipt-label">CIN</td>
+                <td className="receipt-label">{t("cin")}</td>
                 <td className="receipt-value">{member.cin}</td>
               </tr>
             )}
@@ -86,19 +91,19 @@ export default async function ReceiptPage({
         <table className="receipt-table">
           <tbody>
             <tr>
-              <td className="receipt-label">Start date</td>
+              <td className="receipt-label">{t("startDate")}</td>
               <td className="receipt-value">
                 {formatDateFr(period.startDate)}
               </td>
             </tr>
             <tr>
-              <td className="receipt-label">End date</td>
+              <td className="receipt-label">{t("endDate")}</td>
               <td className="receipt-value">
                 {formatDateFr(period.endDate)}
               </td>
             </tr>
             <tr>
-              <td className="receipt-label">Paid on</td>
+              <td className="receipt-label">{t("paidOn")}</td>
               <td className="receipt-value">
                 {formatDateFr(period.paidAt)}
               </td>
@@ -110,7 +115,7 @@ export default async function ReceiptPage({
 
         {/* Total */}
         <div className="receipt-total-row">
-          <span className="receipt-total-label">TOTAL</span>
+          <span className="receipt-total-label">{t("total")}</span>
           <span className="receipt-total-amount">
             {formatMad(period.amountPaid)}
           </span>
@@ -121,7 +126,7 @@ export default async function ReceiptPage({
         {/* Footer */}
         <div className="receipt-footer">
           <p className="receipt-powered">
-            Gym Manager &middot; {gym.name}
+            {t("poweredBy")} &middot; {gym.name}
           </p>
         </div>
       </div>

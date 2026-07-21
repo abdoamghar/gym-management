@@ -8,7 +8,7 @@ import { paymentReminderWhatsApp } from "@/lib/messages";
 import { StatusBadge } from "@/components/StatusBadge";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Link } from "@/i18n/routing";
-import { startOfDay, subMonths, format, startOfMonth, isSameMonth } from "date-fns";
+import { subMonths, format, startOfMonth, isSameMonth } from "date-fns";
 import { RenewButton } from "@/components/RenewButton";
 import { BarChart } from "@/components/BarChart";
 import { ExpireButton } from "@/components/ExpireButton";
@@ -130,15 +130,8 @@ export default async function DashboardPage({
     orderBy: { lastName: "asc" },
   });
 
-  const todayStart = startOfDay(new Date());
-  const checkInsToday = await prisma.checkIn.count({
-    where: {
-      gymId: gym.id,
-      checkedInAt: { gte: todayStart },
-    },
-  });
-
   const activeCount = members.filter((m) => m.status === "ACTIVE").length;
+  const frozenCount = members.filter((m) => m.status === "FROZEN").length;
 
   // Chart data: last 6 months revenue + new memberships
   const sixMonthsAgo = startOfMonth(subMonths(new Date(), 5));
@@ -198,12 +191,12 @@ export default async function DashboardPage({
         </div>
         <div className="card stat stat-card">
           <span className="stat-icon" aria-hidden>✅</span>
-          <div className="stat-value text-[var(--accent)]">{checkInsToday}</div>
-          <div className="stat-label">{t("checkInsToday")}</div>
+          <div className="stat-value text-[var(--accent)]">{activeCount}</div>
+          <div className="stat-label">{t("activeMembers")}</div>
         </div>
       </div>
       <p className="text-[var(--muted)]">
-        {t("activeMembers")}: <strong>{activeCount}</strong>
+        {t("frozenMembers")}: <strong>{frozenCount}</strong>
       </p>
       <div className="grid md:grid-cols-2 gap-4">
         <BarChart

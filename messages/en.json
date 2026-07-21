@@ -26,8 +26,8 @@
     "dueSoon": "Due soon",
     "grace": "Grace period",
     "overdue": "Overdue",
-    "checkInsToday": "Check-ins today",
     "activeMembers": "Active members",
+    "frozenMembers": "Frozen members",
     "quickRenew": "Renew",
     "remind": "WhatsApp",
     "noItems": "Nothing for now",
@@ -163,6 +163,18 @@
     "members": "Export members",
     "payments": "Export payments",
     "hint": "Excel file (.xlsx)"
+  },
+  "receipt": {
+    "paid": "PAID",
+    "member": "Member",
+    "phone": "Phone",
+    "cin": "CIN",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "paidOn": "Paid on",
+    "total": "TOTAL",
+    "poweredBy": "Gym Manager",
+    "renewPrint": "Renew & print new bill"
   },
   "common": {
     "loading": "Loading…",

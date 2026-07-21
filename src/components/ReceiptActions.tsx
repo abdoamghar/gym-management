@@ -5,8 +5,11 @@ import { useRouter } from "@/i18n/routing";
 
 export function ReceiptActions({
   memberId,
+  renewLabel,
+  monthlyPrice,
 }: {
   memberId: string;
+  renewLabel: string;
   monthlyPrice?: number;
 }) {
   const router = useRouter();
@@ -16,7 +19,8 @@ export function ReceiptActions({
       <PrintButton />
       <RenewButton
         memberId={memberId}
-        label="Renew & print new bill"
+        label={renewLabel}
+        amount={monthlyPrice}
         onRenewed={(periodId) => {
           router.push(`/members/${memberId}/receipt?period=${periodId}`);
         }}

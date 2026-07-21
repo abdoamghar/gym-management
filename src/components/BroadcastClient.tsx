@@ -13,7 +13,6 @@ type MemberRow = {
   lastName: string;
   phone: string;
   payStatus: string;
-  payLabel: string;
   url: string;
   text: string;
 };

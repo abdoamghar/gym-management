@@ -335,22 +335,6 @@ export async function unfreezeMember(memberId: string) {
   return { ok: true };
 }
 
-export async function createCheckIn(memberId: string) {
-  const session = await requireSession();
-  const gym = await getCurrentGym();
-
-  await prisma.checkIn.create({
-    data: {
-      gymId: gym.id,
-      memberId,
-      createdById: session.user.id,
-    },
-  });
-
-  revalidatePath("/");
-  return { ok: true };
-}
-
 export async function createHoliday(formData: FormData) {
   await requireSession();
   const gym = await getCurrentGym();

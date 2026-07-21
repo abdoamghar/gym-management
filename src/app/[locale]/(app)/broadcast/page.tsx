@@ -62,7 +62,6 @@ export default async function BroadcastPage({
       lastName: m.lastName,
       phone: m.phone,
       payStatus: getPaymentStatus(m, gym.graceDays, gym.reminderDays).status,
-      payLabel: "",
       url: wa.url,
       text: wa.text,
     };
