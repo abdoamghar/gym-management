@@ -1,0 +1,12 @@
+/* RTL (Arabic) tweaks only.
+   The layout is mirrored automatically by the browser because <html dir="rtl">
+   flips the inline axis — flex-row puts the sidebar on the right for free and
+   logical properties (border-e, p-5, mx-*) auto-swap. We only need a few tiny
+   overrides for content that should NOT mirror. */
+
+@layer components {
+  /* WhatsApp URLs are Latin — keep them readable LTR inside an RTL button */
+  [dir="rtl"] .btn-wa {
+    unicode-bidi: plaintext;
+  }
+}

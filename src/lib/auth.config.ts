@@ -12,7 +12,7 @@ export const authConfig = {
       const isApiAuth = pathname.startsWith("/api/auth");
       if (isApiAuth) return true;
 
-      const localeMatch = pathname.match(/^\/(fr|ar)(\/|$)/);
+    const localeMatch = pathname.match(/^\/(fr|ar|en)(\/|$)/);
       const pathWithoutLocale = localeMatch
         ? pathname.slice((localeMatch[1]?.length ?? 2) + 1) || "/"
         : pathname;

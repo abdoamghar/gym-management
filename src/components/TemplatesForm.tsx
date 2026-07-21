@@ -2,7 +2,6 @@
 
 import { updateTemplates } from "@/lib/actions";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/routing";
 import { FormEvent, useState } from "react";
 import { SubmitButton } from "@/components/ui";
 
@@ -15,7 +14,6 @@ export function TemplatesForm({
 }) {
   const t = useTranslations("templates");
   const tCommon = useTranslations("common");
-  const router = useRouter();
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
 

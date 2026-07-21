@@ -7,11 +7,11 @@
     "dashboard": "Tableau de bord",
     "members": "Membres",
     "renewals": "Renouvellements",
-    "checkIn": "Check-in",
     "holidays": "Congés",
     "templates": "Messages",
     "settings": "Paramètres",
     "export": "Export",
+    "broadcast": "Diffusion",
     "logout": "Déconnexion"
   },
   "login": {
@@ -26,12 +26,17 @@
     "dueSoon": "Bientôt dus",
     "grace": "Période de grâce",
     "overdue": "En retard",
-    "checkInsToday": "Check-ins aujourd'hui",
     "activeMembers": "Membres actifs",
+    "frozenMembers": "Membres gelés",
     "quickRenew": "Renouveler",
     "remind": "WhatsApp",
     "noItems": "Rien pour le moment",
-    "viewAll": "Voir tout"
+    "viewAll": "Voir tout",
+    "expireNow": "Expirer les retardataires maintenant",
+    "expiredCount": "{count} membre(s) expiré(s)",
+    "noOverdue": "Aucun membre en retard à expirer",
+    "chartRevenue": "Revenu (6 derniers mois)",
+    "chartMemberships": "Nouveaux abonnements (6 derniers mois)"
   },
   "members": {
     "title": "Membres",
@@ -70,10 +75,14 @@
     "remindWa": "Rappel paiement WhatsApp",
     "noMembers": "Aucun membre",
     "created": "Membre créé",
+    "createdHint": "Ce membre est maintenant actif. Imprimez le reçu ci-dessous.",
     "updated": "Membre mis à jour",
     "frozenUntil": "Gelé jusqu'au",
     "freezeStart": "Début du gel",
-    "freezeEnd": "Fin du gel (optionnel)"
+    "freezeEnd": "Fin du gel (optionnel)",
+    "delete": "Supprimer le membre",
+    "deleteConfirm": "Ce membre sera masqué des listes actives mais les données sont conservées dans les rapports. Continuer ?",
+    "deleted": "Membre supprimé"
   },
   "status": {
     "ACTIVE": "Actif",
@@ -94,18 +103,11 @@
     "success": "Abonnement renouvelé",
     "amount": "Montant",
     "empty": "Tous les abonnements sont à jour.",
-    "emptyHint": "Aucun rappel à envoyer."
-  },
-  "checkIn": {
-    "title": "Check-in",
-    "search": "Chercher un membre…",
-    "confirm": "Enregistrer la visite",
-    "success": "Check-in enregistré",
-    "warningOverdue": "Abonnement en retard — autoriser quand même ?",
-    "warningGrace": "Période de grâce",
-    "valid": "Abonnement valide",
-    "today": "Aujourd'hui",
-    "noResults": "Aucun résultat"
+    "emptyHint": "Aucun rappel à envoyer.",
+    "colMember": "Membre",
+    "colStatus": "Statut",
+    "colEnd": "Fin",
+    "colActions": "Actions"
   },
   "holidays": {
     "title": "Congés / fermetures",
@@ -145,11 +147,41 @@
     "defaultLocale": "Langue par défaut",
     "saved": "Paramètres enregistrés"
   },
+  "broadcast": {
+    "title": "Diffusion",
+    "audience": "Audience",
+    "audienceAll": "Tous actifs",
+    "audienceDue": "Dû / en retard",
+    "audienceExpired": "Expirés",
+    "template": "Modèle",
+    "templatePayment": "Rappel de paiement",
+    "templateClosure": "Fermeture",
+    "queueTitle": "File d'envoi WhatsApp",
+    "progress": "{current} / {total}",
+    "next": "Membre suivant",
+    "done": "Terminé",
+    "openWa": "Ouvrir WhatsApp",
+    "empty": "Aucun membre dans cette audience",
+    "emptyHint": "Choisissez une autre audience ou modèle.",
+    "sentCount": "{count} messages envoyés"
+  },
   "export": {
     "title": "Export",
     "members": "Exporter les membres",
     "payments": "Exporter les paiements",
     "hint": "Fichier Excel (.xlsx)"
+  },
+  "receipt": {
+    "paid": "PAYÉ",
+    "member": "Membre",
+    "phone": "Téléphone",
+    "cin": "CIN",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "paidOn": "Payé le",
+    "total": "TOTAL",
+    "poweredBy": "Gym Manager",
+    "renewPrint": "Renouveler & imprimer"
   },
   "common": {
     "loading": "Chargement…",

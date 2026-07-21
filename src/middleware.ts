@@ -10,10 +10,10 @@ const intlMiddleware = createMiddleware(routing);
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
-  const localeMatch = pathname.match(/^\/(fr|ar)(\/|$)/);
+  const localeMatch = pathname.match(/^\/(fr|ar|en)(\/|$)/);
   const locale = localeMatch?.[1] ?? "fr";
   const pathWithoutLocale = localeMatch
-    ? pathname.slice(locale.length + 1) || "/"
+    ? pathname.slice(localeMatch[1].length + 1) || "/"
     : pathname;
 
   const isLogin =

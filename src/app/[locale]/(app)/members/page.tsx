@@ -4,8 +4,10 @@ import { getCurrentGym } from "@/lib/gym";
 import { getPaymentStatus, formatDateFr } from "@/lib/membership";
 import { StatusBadge } from "@/components/StatusBadge";
 import { EmptyState } from "@/components/EmptyState";
+import { MembersSearch } from "@/components/MembersSearch";
 import { Link } from "@/i18n/routing";
 import { MemberStatus } from "@prisma/client";
+import { Suspense } from "react";
 
 export default async function MembersPage({
   params,
@@ -30,7 +32,8 @@ export default async function MembersPage({
       | { phone: { contains: string } }
       | { cin: { contains: string } }
     >;
-  } = { gymId: gym.id };
+    deletedAt?: null;
+  } = { gymId: gym.id, deletedAt: null };
 
   if (status === "CANCELLED") {
     where.status = "CANCELLED";
@@ -64,24 +67,9 @@ export default async function MembersPage({
         </Link>
       </div>
 
-      <form className="card p-4 flex flex-col md:flex-row gap-3">
-        <input
-          name="q"
-          defaultValue={q}
-          placeholder={t("search")}
-          className="input flex-1"
-        />
-        <select name="status" defaultValue={status || "ALL"} className="select md:w-48">
-          <option value="ALL">{t("allStatuses")}</option>
-          <option value="ACTIVE">{tStatus("ACTIVE")}</option>
-          <option value="FROZEN">{tStatus("FROZEN")}</option>
-          <option value="EXPIRED">{tStatus("EXPIRED")}</option>
-          <option value="CANCELLED">{tStatus("CANCELLED")}</option>
-        </select>
-        <button type="submit" className="btn btn-secondary">
-          OK
-        </button>
-      </form>
+      <Suspense fallback={null}>
+        <MembersSearch initialQuery={q ?? ""} initialStatus={status ?? "ALL"} />
+      </Suspense>
 
       {members.length === 0 ? (
         <EmptyState
@@ -104,13 +92,17 @@ export default async function MembersPage({
             <tbody>
               {members.map((m) => {
                 const pay = getPaymentStatus(m, gym.graceDays, gym.reminderDays);
+                const initials = `${m.firstName.slice(0, 1)}${m.lastName.slice(0, 1)}`.toUpperCase();
                 return (
-                  <tr key={m.id}>
+                  <tr key={m.id} className="row-hover">
                     <td>
                       <Link
                         href={`/members/${m.id}`}
-                        className="font-semibold hover:text-[var(--accent)]"
+                        className="font-semibold hover:text-[var(--accent)] inline-flex items-center gap-2"
                       >
+                        <span className="avatar avatar-sm" aria-hidden>
+                          {initials}
+                        </span>
                         {m.firstName} {m.lastName}
                       </Link>
                     </td>

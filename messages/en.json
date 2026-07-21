@@ -7,11 +7,11 @@
     "dashboard": "Dashboard",
     "members": "Members",
     "renewals": "Renewals",
-    "checkIn": "Check-in",
     "holidays": "Holidays",
     "templates": "Messages",
     "settings": "Settings",
     "export": "Export",
+    "broadcast": "Broadcast",
     "logout": "Logout"
   },
   "login": {
@@ -26,12 +26,17 @@
     "dueSoon": "Due soon",
     "grace": "Grace period",
     "overdue": "Overdue",
-    "checkInsToday": "Check-ins today",
     "activeMembers": "Active members",
+    "frozenMembers": "Frozen members",
     "quickRenew": "Renew",
     "remind": "WhatsApp",
     "noItems": "Nothing for now",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "expireNow": "Expire overdue now",
+    "expiredCount": "Expired {count} member(s)",
+    "noOverdue": "No overdue members to expire",
+    "chartRevenue": "Revenue (last 6 months)",
+    "chartMemberships": "New memberships (last 6 months)"
   },
   "members": {
     "title": "Members",
@@ -70,10 +75,14 @@
     "remindWa": "Send payment reminder WhatsApp",
     "noMembers": "No members",
     "created": "Member created",
+    "createdHint": "This member is now active. Print the receipt below.",
     "updated": "Member updated",
     "frozenUntil": "Frozen until",
     "freezeStart": "Freeze start",
-    "freezeEnd": "Freeze end (optional)"
+    "freezeEnd": "Freeze end (optional)",
+    "delete": "Delete member",
+    "deleteConfirm": "This member will be hidden from active lists but data is preserved in reports. Continue?",
+    "deleted": "Member deleted"
   },
   "status": {
     "ACTIVE": "Active",
@@ -94,18 +103,11 @@
     "success": "Membership renewed",
     "amount": "Amount",
     "empty": "All memberships are up to date.",
-    "emptyHint": "No reminders to send."
-  },
-  "checkIn": {
-    "title": "Check-in",
-    "search": "Search a member…",
-    "confirm": "Save visit",
-    "success": "Check-in saved",
-    "warningOverdue": "Membership overdue — allow anyway?",
-    "warningGrace": "Grace period",
-    "valid": "Membership valid",
-    "today": "Today",
-    "noResults": "No results"
+    "emptyHint": "No reminders to send.",
+    "colMember": "Member",
+    "colStatus": "Status",
+    "colEnd": "End",
+    "colActions": "Actions"
   },
   "holidays": {
     "title": "Holidays / closures",
@@ -145,11 +147,41 @@
     "defaultLocale": "Default language",
     "saved": "Settings saved"
   },
+  "broadcast": {
+    "title": "Broadcast",
+    "audience": "Audience",
+    "audienceAll": "All active",
+    "audienceDue": "Due / overdue",
+    "audienceExpired": "Expired",
+    "template": "Template",
+    "templatePayment": "Payment reminder",
+    "templateClosure": "Closure",
+    "queueTitle": "WhatsApp sending queue",
+    "progress": "{current} / {total}",
+    "next": "Next member",
+    "done": "Done",
+    "openWa": "Open WhatsApp",
+    "empty": "No members in this audience",
+    "emptyHint": "Choose a different audience or template.",
+    "sentCount": "{count} messages sent"
+  },
   "export": {
     "title": "Export",
     "members": "Export members",
     "payments": "Export payments",
     "hint": "Excel file (.xlsx)"
+  },
+  "receipt": {
+    "paid": "PAID",
+    "member": "Member",
+    "phone": "Phone",
+    "cin": "CIN",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "paidOn": "Paid on",
+    "total": "TOTAL",
+    "poweredBy": "Gym Manager",
+    "renewPrint": "Renew & print new bill"
   },
   "common": {
     "loading": "Loading…",

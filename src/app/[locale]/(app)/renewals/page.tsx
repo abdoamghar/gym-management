@@ -21,7 +21,7 @@ export default async function RenewalsPage({
 
   const gym = await getCurrentGym();
   const members = await prisma.member.findMany({
-    where: { gymId: gym.id, status: { not: "CANCELLED" } },
+    where: { gymId: gym.id, status: { not: "CANCELLED" }, deletedAt: null },
     include: { periods: true },
     orderBy: { lastName: "asc" },
   });
@@ -46,11 +46,11 @@ export default async function RenewalsPage({
           <table className="data">
             <thead>
               <tr>
-                <th>Membre</th>
-                <th>Statut</th>
-                <th>Fin</th>
+                <th>{t("colMember")}</th>
+                <th>{t("colStatus")}</th>
+                <th>{t("colEnd")}</th>
                 <th>{t("amount")}</th>
-                <th>Actions</th>
+                <th>{t("colActions")}</th>
               </tr>
             </thead>
             <tbody>

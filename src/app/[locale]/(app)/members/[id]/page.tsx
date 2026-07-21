@@ -20,7 +20,7 @@ export default async function MemberDetailPage({
     where: { id, gymId: gym.id },
     include: { periods: { orderBy: { endDate: "desc" } } },
   });
-  if (!member) notFound();
+  if (!member || member.deletedAt) notFound();
 
   const pay = getPaymentStatus(member, gym.graceDays, gym.reminderDays);
   const remind = paymentReminderWhatsApp(gym, gym.messageTemplates, member);

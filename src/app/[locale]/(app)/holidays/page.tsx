@@ -19,7 +19,7 @@ export default async function HolidaysPage({
     orderBy: { startDate: "desc" },
   });
   const activeMembers = await prisma.member.findMany({
-    where: { gymId: gym.id, status: "ACTIVE" },
+    where: { gymId: gym.id, status: "ACTIVE", deletedAt: null },
   });
 
   const buildQueue: Record<

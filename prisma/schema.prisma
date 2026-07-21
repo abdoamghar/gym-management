@@ -76,6 +76,7 @@ model Member {
   status            MemberStatus @default(ACTIVE)
   freezeStart       DateTime?
   freezeEnd         DateTime?
+  deletedAt         DateTime?
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
 
@@ -87,6 +88,7 @@ model Member {
   @@index([phone])
   @@index([cin])
   @@index([status])
+  @@index([deletedAt])
 }
 
 model MembershipPeriod {

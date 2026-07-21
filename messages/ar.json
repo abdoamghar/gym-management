@@ -7,11 +7,11 @@
     "dashboard": "لوحة التحكم",
     "members": "الأعضاء",
     "renewals": "التجديدات",
-    "checkIn": "تسجيل الحضور",
     "holidays": "العطل",
     "templates": "الرسائل",
     "settings": "الإعدادات",
     "export": "تصدير",
+    "broadcast": "إذاعة",
     "logout": "خروج"
   },
   "login": {
@@ -26,12 +26,17 @@
     "dueSoon": "قرب الاستحقاق",
     "grace": "فترة السماح",
     "overdue": "متأخر",
-    "checkInsToday": "حضور اليوم",
     "activeMembers": "أعضاء نشطون",
+    "frozenMembers": "أعضاء مجمّدون",
     "quickRenew": "تجديد",
     "remind": "واتساب",
     "noItems": "لا يوجد شيء حالياً",
-    "viewAll": "عرض الكل"
+    "viewAll": "عرض الكل",
+    "expireNow": "إنهاء المتأخرين الآن",
+    "expiredCount": "تم إنهاء {count} عضو",
+    "noOverdue": "لا يوجد أعضاء متأخرون لإنهاؤهم",
+    "chartRevenue": "الإيرادات (آخر 6 أشهر)",
+    "chartMemberships": "اشتراكات جديدة (آخر 6 أشهر)"
   },
   "members": {
     "title": "الأعضاء",
@@ -65,10 +70,14 @@
     "remindWa": "تذكير الدفع واتساب",
     "noMembers": "لا يوجد أعضاء",
     "created": "تم إنشاء العضو",
+    "createdHint": "هذا العضو أصبح نشطاً. اطبع الإيصال بالأسفل.",
     "updated": "تم تحديث العضو",
     "frozenUntil": "مجمّد حتى",
     "freezeStart": "بداية التجميد",
     "freezeEnd": "نهاية التجميد (اختياري)",
+    "delete": "حذف العضو",
+    "deleteConfirm": "سيتم إخفاء هذا العضو من القوائم النشطة ولكن يتم الاحتفاظ بالبيانات في التقارير. هل تريد المتابعة؟",
+    "deleted": "تم حذف العضو",
     "noPeriods": "لا توجد مدفوعات مسجلة.",
     "noPeriodsHint": "اضغط على « تجديد » لإنشاء أول اشتراك."
   },
@@ -91,18 +100,11 @@
     "success": "تم تجديد الاشتراك",
     "amount": "المبلغ",
     "empty": "كل الاشتراكات سارية.",
-    "emptyHint": "لا توجد تذكيرات لإرسالها."
-  },
-  "checkIn": {
-    "title": "تسجيل الحضور",
-    "search": "البحث عن عضو…",
-    "confirm": "تسجيل الزيارة",
-    "success": "تم تسجيل الحضور",
-    "warningOverdue": "الاشتراك متأخر — السماح بالدخول؟",
-    "warningGrace": "فترة السماح",
-    "valid": "الاشتراك ساري",
-    "today": "اليوم",
-    "noResults": "لا نتائج"
+    "emptyHint": "لا توجد تذكيرات لإرسالها.",
+    "colMember": "العضو",
+    "colStatus": "الحالة",
+    "colEnd": "النهاية",
+    "colActions": "إجراءات"
   },
   "holidays": {
     "title": "العطل / الإغلاق",
@@ -142,11 +144,41 @@
     "defaultLocale": "اللغة الافتراضية",
     "saved": "تم حفظ الإعدادات"
   },
+  "broadcast": {
+    "title": "إذاعة",
+    "audience": "الجمهور",
+    "audienceAll": "كل النشطين",
+    "audienceDue": "المستحق / المتأخر",
+    "audienceExpired": "المنتهية",
+    "template": "النموذج",
+    "templatePayment": "تذكير الدفع",
+    "templateClosure": "إغلاق",
+    "queueTitle": "قائمة إرسال واتساب",
+    "progress": "{current} / {total}",
+    "next": "العضو التالي",
+    "done": "تم",
+    "openWa": "فتح واتساب",
+    "empty": "لا يوجد أعضاء في هذه الفئة",
+    "emptyHint": "اختر فئة أو نموذجًا آخر.",
+    "sentCount": "تم إرسال {count} رسالة"
+  },
   "export": {
     "title": "تصدير",
     "members": "تصدير الأعضاء",
     "payments": "تصدير المدفوعات",
     "hint": "ملف Excel (.xlsx)"
+  },
+  "receipt": {
+    "paid": "مدفوع",
+    "member": "العضو",
+    "phone": "الهاتف",
+    "cin": "رقم البطاقة",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "paidOn": "تاريخ الدفع",
+    "total": "الإجمالي",
+    "poweredBy": "مدير الصالة",
+    "renewPrint": "تجديد وطباعة فاتورة"
   },
   "common": {
     "loading": "جاري التحميل…",

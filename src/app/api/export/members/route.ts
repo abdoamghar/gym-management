@@ -13,7 +13,7 @@ export async function GET() {
 
   const gym = await getCurrentGym();
   const members = await prisma.member.findMany({
-    where: { gymId: gym.id },
+    where: { gymId: gym.id, deletedAt: null, status: { not: "CANCELLED" } },
     include: { periods: true },
     orderBy: { lastName: "asc" },
   });
