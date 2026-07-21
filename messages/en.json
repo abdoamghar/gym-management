@@ -33,6 +33,8 @@
     "noItems": "Nothing for now",
     "viewAll": "View all",
     "expireNow": "Expire overdue now",
+    "expiredCount": "Expired {count} member(s)",
+    "noOverdue": "No overdue members to expire",
     "chartRevenue": "Revenue (last 6 months)",
     "chartMemberships": "New memberships (last 6 months)"
   },

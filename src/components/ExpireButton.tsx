@@ -2,10 +2,12 @@
 
 import { expireOverdueMembers } from "@/lib/actions";
 import { useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Spinner } from "@/components/ui";
 
 export function ExpireButton() {
+  const t = useTranslations("dashboard");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -16,9 +18,9 @@ export function ExpireButton() {
     const res = await expireOverdueMembers();
     setLoading(false);
     if (res.ok && res.expiredCount > 0) {
-      setMsg(`Expired ${res.expiredCount} members`);
+      setMsg(t("expiredCount", { count: res.expiredCount }));
     } else if (res.ok) {
-      setMsg("No overdue members to expire");
+      setMsg(t("noOverdue"));
     }
     router.refresh();
     setTimeout(() => setMsg(null), 3000);
@@ -32,7 +34,7 @@ export function ExpireButton() {
         disabled={loading}
         onClick={onClick}
       >
-        {loading ? <Spinner /> : "Expire overdue now"}
+        {loading ? <Spinner /> : t("expireNow")}
       </button>
       {msg && (
         <span className="text-sm text-[var(--muted)]">{msg}</span>

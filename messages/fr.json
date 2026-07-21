@@ -32,7 +32,9 @@
     "remind": "WhatsApp",
     "noItems": "Rien pour le moment",
     "viewAll": "Voir tout",
-    "expireNow": "Expirenow",
+    "expireNow": "Expirer les retardataires maintenant",
+    "expiredCount": "{count} membre(s) expiré(s)",
+    "noOverdue": "Aucun membre en retard à expirer",
     "chartRevenue": "Revenu (6 derniers mois)",
     "chartMemberships": "Nouveaux abonnements (6 derniers mois)"
   },
